@@ -1,9 +1,9 @@
-include <util/m919d.scad>;
+include <foot/foot.scad>
 
 
 module inmoov_hil() {
   union() {
-    m919d();
+    foot();
   }
 }
 

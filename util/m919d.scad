@@ -3,7 +3,6 @@ module m919d() {
   hbase_y = 47;
   hbase_z = 1;
 
-
   motor_length = 51;
   motor_diam = 36;
   motor_height = 39; 
