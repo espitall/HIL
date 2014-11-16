@@ -8,10 +8,10 @@ include <../util/weight_sensor.scad>
 
 module foot() {
   union() {
-    //ankle(); 
-    heel();
+    %ankle(); 
+    //heel();
     big_toe();
-    little_toe();
+    //little_toe();
 
     //sensor for heel
     heel_base() {
@@ -33,11 +33,21 @@ module foot() {
     }
 
     ankle_base() {
-      translate([45, 25, 35]) {
+      translate([30, 20.5, 35]) {
         rotate([0, 0, 180]) {
           m919d();
         }
       }
     }
+  }
+}
+
+module foot_right() {
+  foot();
+}
+
+module foot_left() {
+  scale([1, -1, 1]) {
+    foot();
   }
 }
