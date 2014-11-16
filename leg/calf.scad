@@ -2,6 +2,14 @@ include <../util/stl.scad>
 include <../util/nut.scad>
 include <../util/gear_wrapper.scad>
 
+module calf_top_base_invert() {
+  rotate([11, -2, 0]) {
+    translate([-25, 160, -488.5]) {
+      children();
+    }
+  }
+}
+
 module calf_top_base() {
   translate([25, -160, 488.5]) {
     rotate([-11, 2, 0]) {
