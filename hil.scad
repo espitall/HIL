@@ -1,5 +1,4 @@
-include <foot/foot.scad>
-include <leg/leg.scad>
+include <base_inc.scad>
 
 debug_disable_gears = false;
 
