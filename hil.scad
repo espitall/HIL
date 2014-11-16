@@ -1,13 +1,13 @@
 include <base_inc.scad>
 
-debug_disable_gears = false;
+debug_disable_gears = true;
 
 module inmoov_hil() {
   union() {
-    //foot_right();
-	 //foot_left();
+    foot_right();
+	 foot_left();
     leg_right();
-    //leg_left();
+    leg_left();
   }
 }
 
