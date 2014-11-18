@@ -112,7 +112,7 @@ module calf_high() {
 
           translate([0, 25, 0]) {
             rotate([90, 0, 0]) {
-              gw_bevel_gear_pair(25, 7, 90, 500, 1);
+              gw_bevel_gear_pair(25, 7, 90, 500, 0, 1);
             }
           }
 

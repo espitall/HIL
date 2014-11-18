@@ -57,6 +57,7 @@ module bevel_gear_pair (
 	gear2_teeth = 7,
 	axis_angle = 90,
 	outside_circular_pitch=1000,
+  bore_diameter=5,
   gear_id=0)
 {
 	outside_pitch_radius1 = gear1_teeth * outside_circular_pitch / 360;
@@ -81,7 +82,8 @@ module bevel_gear_pair (
                     number_of_teeth=gear1_teeth,
                     cone_distance=cone_distance,
                     pressure_angle=30,
-                    outside_circular_pitch=outside_circular_pitch);
+                    outside_circular_pitch=outside_circular_pitch,
+                    bore_diameter=bore_diameter);
     }
 	
     if((gear_id == 0) || (gear_id == 2)) 
@@ -92,7 +94,8 @@ module bevel_gear_pair (
                     number_of_teeth=gear2_teeth,
                     cone_distance=cone_distance,
                     pressure_angle=30,
-                    outside_circular_pitch=outside_circular_pitch);
+                    outside_circular_pitch=outside_circular_pitch,
+                    bore_diameter=bore_diameter);
     }
 	}
 }

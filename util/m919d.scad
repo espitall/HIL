@@ -37,6 +37,9 @@ module m919d() {
   hole_y_offset = hole_x_offset;
   hole_z_offset = 1;
 
+  meplat_length = 12;
+  meplat_depth = reductor_axis_diam - 5.5;
+
   difference() {
     union() {
       // base 
@@ -65,9 +68,16 @@ module m919d() {
           cylinder(r = reductor_preaxis_diam / 2, h = reductor_preaxis_length);
         }
       }
-      translate([-reductor_axis_length, hbase_y / 2, reductor_preaxis_height - reductor_preaxis_diam / 2]) {
-        rotate([0, 90, 0]) {
-          cylinder(r = reductor_axis_diam / 2, h = reductor_axis_length);
+      difference() {
+        translate([-reductor_axis_length, hbase_y / 2, reductor_preaxis_height - reductor_preaxis_diam / 2]) {
+          rotate([0, 90, 0]) {
+            cylinder(r = reductor_axis_diam / 2, h = reductor_axis_length);
+          }
+        }
+
+        //meplat
+        translate([-reductor_axis_length - 1, 0, 0]) {
+          cube([meplat_length + 1, hbase_y, reductor_preaxis_height - reductor_preaxis_diam / 2 - reductor_axis_diam / 2 + meplat_depth]);
         }
       }
       translate([0, hbase_y / 2, motor_height - motor_diam / 2]) {
