@@ -1,7 +1,9 @@
 module mirror(mirror = true) {
   if(mirror) {
-    scale([1, -1, 1]) {
-      children();
+    translate([0, -11, 0]) {
+      scale([1, -1, 1]) {
+        children();
+      }
     }
   }
   else {

@@ -151,6 +151,60 @@ module thigh_low() {
   }
 }
 
+module thigh_high() {
+  union() {
+    stl("high thigh");
+  }
+}
+
+module thigh_mid() {
+  union() {
+    //stl("high thigh");
+
+    //attach fo low thigh
+    difference() {
+      union() {
+        thigh_low_top_base() {
+          translate([-35, 21.75, -20]) {
+            rotate([0, 0, 1]) {
+              cube([60, 20, 25]);
+            }
+          }
+
+          translate([-35, -47.75, -20]) {
+            rotate([0, 0, 1]) {
+              cube([60, 20, 25]);
+            }
+          }
+        }
+      }
+
+      thigh_low_top_base() {
+        for(h = [-20, 15], r = [0, 180]) { 
+          translate([h, 0, -10]) {
+            rotate([90, 0, r]) {
+              cylinder(r = 2.5, h = 100);
+            }
+          }
+          translate([h, -3, -10]) {
+            rotate([90, 0, r]) {
+              translate([0, 0, 10]) {
+                linear_extrude(height = 25) {
+                  nut_M4_2D();
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 module thigh() {
-  thigh_low();
+  union() {
+    //thigh_low();
+    thigh_mid();
+    thigh_high();
+  }
 }
