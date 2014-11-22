@@ -8,6 +8,14 @@ module thigh_low_bottom_base() {
   }
 }
 
+module thigh_low_top_base() {
+  translate([50, -135, 604]) {
+    rotate([-11, -3.5, 0]) {
+      children();
+    }
+  }
+}
+
 module thigh_low() {
   difference() {
     union() {
@@ -19,13 +27,53 @@ module thigh_low() {
           translate([-100 + 30, -75, -2]) {
             cube([100, 150, 30]);
           }
+          translate([-110, -50, 0]) {
+            cube([75, 100, 200]);
+          }
         }
+
+        //screws for mid thigh
+        thigh_low_top_base() {
+          for(h = [-20, 15], r = [0, 180]) { 
+            translate([h, 0, -10]) {
+              rotate([90, 0, r]) {
+                cylinder(r = 2.5, h = 100);
+              }
+            }
+            translate([h, 0, -10]) {
+              rotate([90, 0, r]) {
+                translate([0, 0, 60]) {
+                  cylinder(r = 6, h = 20);
+                }
+              }
+            }
+          }
+        }
+
 
         //place for motor
         thigh_low_bottom_base() {
           rotate([0, knee_motor_angle, 0]) {
-            translate([-100 + 20 - 6, -55 / 2 - 4.5, 0]) {
+            translate([-100 + 20 - 6, -45, 70]) {
+              cube([100, 90, 200]);
+            }
+
+            translate([-100 + 20 - 6, -55 / 2 - 5, 0]) {
               cube([100, 55, 200]);
+            }
+
+            rotate([0, 90, 0]) {
+              for(x = [0, 49 - 4 - 4], y = [0, 47 - 4 - 4]) {
+                translate([-87 - x, 15 - y, -100]) {
+                  cylinder(r = 3.5 / 2, h = 200);
+                }
+
+               translate([-87 - x, 15 - y, 30]) {
+                  linear_extrude(height = 100) {
+                    nut_M3_2D();
+                  }
+                }
+              }
             }
           }
         }

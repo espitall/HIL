@@ -3,7 +3,6 @@ include <base_inc.scad>
 debug_disable_gears = true;
 max_t = 1.0;
 
-
 module hil_lower(left) {
   mirror(left) {
     leg(left);
@@ -14,7 +13,7 @@ module hil_lower(left) {
 }
 
 module hil() {
-  $animate_leg_left_knee_angle = 100 * $t / max_t + 0;
+  $animate_leg_left_knee_angle = 100 * $t / max_t + 45;
   //$animate_leg_left_knee_angle = 95;
 
   union() {
