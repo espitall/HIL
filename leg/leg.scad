@@ -28,16 +28,16 @@ module leg_rotate_knee(left = false) {
 module leg(left = false) {
   union() {
     thigh();
-    knee_part1();
+    knee();
     leg_rotate_knee(left) {
       calf();
     }
 
     //knee motor
     knee_base() {
-      translate([14, -28.25, 83]) {
-        rotate([0, -90, 0]) {
-          m919d();
+      rotate([0, knee_motor_angle, 0]) {
+        translate([0, -4.5, 30]) {
+          m919d(axis_centered = true);
         }
       }
     }

@@ -34,24 +34,30 @@ module calf_mid_bottom_base() {
   }
 }
 
+module calf_high_stl_sub_part() {
+  difference() {
+    stl("calf");
+
+    //place for top fixation
+    calf_top_base() {
+      translate([-100 + 30, -75, -28]) {
+        cube([100, 150, 30]);
+      }
+    }
+
+    //only high part
+    calf_high_bottom_base() {
+      translate([-200, -200, -500]) {
+        cube([400, 400, 500]);
+      }
+    }
+  }
+}
+
 module calf_high() {
   union() {
     difference() {
-      stl("calf");
-
-      //place for top fixation
-      calf_top_base() {
-        translate([-100 + 30, -75, -28]) {
-          cube([100, 150, 30]);
-        }
-      }
-
-      //only high part
-      calf_high_bottom_base() {
-        translate([-200, -200, -500]) {
-         cube([400, 400, 500]);
-        }
-      }
+      calf_high_stl_sub_part();
 
       //internal hole
       calf_high_bottom_base() {

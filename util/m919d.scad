@@ -1,4 +1,4 @@
-module m919d() {
+module m919d_base() {
   hbase_x = 49;
   hbase_y = 47;
   hbase_z = 1;
@@ -15,7 +15,7 @@ module m919d() {
   reductor_preaxis_height = 20;
 
   reductor_axis_length = 53;
-  reductor_axis_diam = 6;
+  reductor_axis_diam = 6.5;
 
   motor_preaxis_length = 54;
   motor_preaxis_diam = 13;
@@ -38,7 +38,7 @@ module m919d() {
   hole_z_offset = 1;
 
   meplat_length = 12;
-  meplat_depth = reductor_axis_diam - 5.5;
+  meplat_depth = reductor_axis_diam - 6;
 
   difference() {
     union() {
@@ -105,5 +105,18 @@ module m919d() {
         cylinder(r = hole_diam / 2, h = hbase_z + hole_z_offset * 2);
       }
     }
+  }
+}
+
+module m919d(axis_centered = false) {
+  if(axis_centered) {
+    translate([20 - 12 / 2, -47 / 2, 54 - 1]) {
+      rotate([0, -90, 0]) {
+        m919d_base();
+      }
+    }
+  }
+  else {
+    m919d_base();
   }
 }

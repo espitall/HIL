@@ -9,6 +9,7 @@ PARTS_WITH_MIRROR=
 PARTS_WITH_MIRROR+=" ankle big_toe little_toe heel"
 
 #leg
+PARTS+=" knee_part1 knee_part2"
 PARTS_WITH_MIRROR+=" calf_high calf_mid calf_low knee_part1 thigh_low"
 
 generate_stl() {
