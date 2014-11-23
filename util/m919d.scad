@@ -38,7 +38,7 @@ module m919d_base() {
   hole_z_offset = 1;
 
   meplat_length = 12;
-  meplat_depth = reductor_axis_diam - 6;
+  meplat_depth = reductor_axis_diam - 5.75;
 
   difference() {
     union() {

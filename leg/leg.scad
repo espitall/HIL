@@ -41,5 +41,14 @@ module leg(left = false) {
         }
       }
     }
+
+    //thigh motor
+    thigh_mid_p1_top_base() {
+      translate([-700 * (15 + 7) / 360, 0, 7]) {
+        rotate([180, 0, 180]) {
+          m919d(axis_centered = true);
+        }
+      }
+    }
   }
 }

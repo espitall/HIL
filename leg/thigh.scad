@@ -16,6 +16,22 @@ module thigh_low_top_base() {
   }
 }
 
+module thigh_mid_p1_top_base() {
+  translate([0, 10, 95]) {
+    thigh_low_top_base() {
+      children();
+    }
+  }
+}
+
+module thigh_mid_p2_top_base() {
+  translate([0, 0, 30]) {
+    thigh_mid_p1_top_base() {
+      children();
+    }
+  }
+}
+
 module thigh_low() {
   difference() {
     union() {
@@ -151,19 +167,11 @@ module thigh_low() {
   }
 }
 
-module thigh_high() {
+module thigh_mid_p1() {
   union() {
-    stl("high thigh");
-  }
-}
-
-module thigh_mid() {
-  union() {
-    //stl("high thigh");
-
-    //attach fo low thigh
     difference() {
       union() {
+        stl("high thigh");
         thigh_low_top_base() {
           translate([-35, 21.75, -20]) {
             rotate([0, 0, 1]) {
@@ -179,6 +187,99 @@ module thigh_mid() {
         }
       }
 
+      //remove high part of the stl file
+      thigh_mid_p1_top_base() {
+        cylinder(r = 300, h = 500);
+      }
+
+      //add holes and nuts (for thigh high)
+      thigh_mid_p1_top_base() {
+        for(i = [0 : 5]) {
+          rotate([0, 0, i * 360 / 6]) {
+            translate([70, 0, -38]) {
+              cylinder(r = 2.5, h = 40);
+            }
+            translate([70, 0, -15]) {
+              nut_M4_insert(shift = 40);
+            }
+          }
+        }
+      }
+
+      //add internal hole
+      thigh_low_top_base() {
+        translate([-51, -47.75, -1]) {
+          linear_extrude(height = 85) {
+            polygon(points = [
+                    [0, 0],
+                    [15, 0],
+                    [15, 21],
+                    [77, 22],
+                    [77, 0],
+                    [92, 0],
+                    [92, 85],
+                    [77, 85],
+                    [77, 70],
+                    [15, 69],
+                    [15, 90],
+                    [0, 90],
+            ]);
+          }
+        }
+      }
+
+      thigh_mid_p1_top_base() {
+        union() {
+          //hole for motor axis
+          translate([-700 * (15 + 7) / 360, 0, -20]) {
+            cylinder(r = 8, h = 40);
+          }
+
+          //hole for potentiometer
+          translate([0, 0, -20]) {
+            cylinder(r = 8 / 2, h = 40);
+          }
+        }
+      }
+
+      //potentiometer attach
+      thigh_mid_p1_top_base() {
+        translate([0, 0, -25]) {
+          for(rz = [0, 180]) {
+            rotate([90, 0, rz]) {
+              cylinder(r = 2.5, h = 100);
+              translate([0, 0, 60]) {
+                cylinder(r = 6, h = 100);
+              }
+            }
+          }
+        }
+      }
+
+      //holes for motor
+      thigh_mid_p1_top_base() {
+        translate([-700 * (15 + 7) / 360, 4.5, 37]) {
+          rotate([0, -90, 0]) {
+            for(x = [0, 49 - 4 - 4], y = [0, 47 - 4 - 4]) {
+              translate([-87 - x, 15 - y, -100]) {
+                cylinder(r = 3.5 / 2, h = 200);
+              }
+
+              translate([-87 - x, 15 - y, -200]) {
+                cylinder(r = 4, h = 200);
+              }
+
+              translate([-87 - x, 15 - y, 30]) {
+                linear_extrude(height = 100) {
+                  nut_M3_2D();
+                }
+              }
+            }
+          }
+        }
+      }
+
+      //attach for low thigh
       thigh_low_top_base() {
         for(h = [-20, 15], r = [0, 180]) { 
           translate([h, 0, -10]) {
@@ -197,14 +298,169 @@ module thigh_mid() {
           }
         }
       }
+
+      //hole for cables
+      thigh_mid_p1_top_base() {
+        rotate([0, 45, -20]) {
+          translate([50, 0, -20]) {
+            cylinder(r = 10, h = 100);
+          }
+        }
+      }
+    }
+  }
+}
+
+module thigh_mid_p2() {
+  difference() {
+    stl("high thigh");
+
+    //remove high part of the stl file
+    thigh_mid_p2_top_base() {
+      cylinder(r = 300, h = 500);
+    }
+
+    //remove low part of the stl file
+    thigh_mid_p1_top_base() {
+      translate([0, 0, -500]) {
+        cylinder(r = 300, h = 500);
+      }
+    }
+
+    //add internal hole
+    union() {
+      thigh_mid_p1_top_base() {
+        translate([0, 0, -1]) {
+          cylinder(r1 = 60, r2 = 40, h = 35);
+        }
+
+        translate([-700 * (15 + 7) / 360, 0, -20]) {
+          cylinder(r = 20, h = 30.5);
+        }
+      }
+    }
+
+    //add screw hole
+    thigh_mid_p1_top_base() {
+      for(i = [0 : 5]) {
+        rotate([0, 0, i * 360 / 6]) {
+          translate([70, 0, -1]) {
+            cylinder(r = 2.5, h = 40);
+          }
+        }
+      }
+    }
+
+    //hole for cables
+    thigh_mid_p1_top_base() {
+      rotate([0, -45, -20]) {
+        translate([50, 0, -70]) {
+          cylinder(r = 10, h = 35);
+        }
+      }
+      rotate([0, 0, -20]) {
+        translate([63, 0, 5]) {
+          cylinder(r = 10, h = 35);
+        }
+      }
+    }
+  }
+}
+
+
+module thigh_high() {
+  union() {
+    stl("high thigh");
+  }
+}
+
+module thigh_mid_internal_p1() {
+  difference() {
+    union() {
+      thigh_mid_p1_top_base() {
+        //add gear
+        rotate([0, 0, 180]) {
+          gw_gear_pair(gear1_teeth = 15, gear2_teeth = 7, gear_id = 1, thickness = 12, force = true);
+        }
+
+        //add cone
+        difference() {
+          translate([0, 0, -1.5]) {
+            cylinder(r1 = 60, r2 = 40, h = 35);
+          }
+
+          translate([0, 0, -8.5]) {
+            cylinder(r1 = 60, r2 = 60, h = 20);
+          }
+        }
+
+        //generate upper part
+        translate([0, 0, 20]) {
+          cylinder(r = 40, h = 40);
+        }
+      }
+    }
+
+    //add hole for potentiometer
+    thigh_mid_p1_top_base() {
+      difference() {
+        translate([0, 0, -1]) {
+          cylinder(r = 3.25, h = 10);
+        }
+        translate([0.25, -5, -2]) {
+          cube([10, 10, 12]);
+        }
+      }
+    }
+
+    //add screw holes and nuts
+    thigh_mid_p1_top_base() {
+      for(i = [0 : 4]) {
+        translate([0, 0, 50]) {
+          rotate([90, 0, i * 360 / 5]) {
+            cylinder(r = 2.5, h = 100);
+          }
+        }
+        rotate([0, -90, i * 360 / 5 + 18]) {
+          translate([50, 0, 25]) {
+            nut_M4_insert();
+          }
+        }
+      }
+    }
+  }
+}
+
+module thigh_mid_internal_p2() {
+  difference() {
+    union() {
+      thigh_mid_p1_top_base() {
+        rotate([0, 0, 180]) {
+          gw_gear_pair(gear1_teeth = 15, gear2_teeth = 7, gear_id = 2, thickness = 10, force = true);
+        }
+
+        translate([-700 * (15 + 7) / 360, 0, -6]) {
+          cylinder(r = 7, h = 10);
+        }
+      }
+    }
+    thigh_mid_p1_top_base() {
+      translate([-700 * (15 + 7) / 360, 0, 7]) {
+        rotate([180, 0, 180]) {
+          m919d(axis_centered = true);
+        }
+      }
     }
   }
 }
 
 module thigh() {
   union() {
-    //thigh_low();
-    thigh_mid();
-    thigh_high();
+    thigh_low();
+    thigh_mid_p1();
+    thigh_mid_internal_p1();
+    thigh_mid_internal_p2();
+    thigh_mid_p2();
+    //thigh_high();
   }
 }
