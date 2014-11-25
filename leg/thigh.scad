@@ -46,6 +46,20 @@ module thigh_low() {
           translate([-110, -50, 0]) {
             cube([75, 100, 200]);
           }
+          translate([40, -5, -15]) {
+            rotate([0, -45, 0]) {
+              cube([20, 30, 40]);
+            }
+          }
+        }
+
+        //hole for cables
+        thigh_low_bottom_base() {
+          translate([15, 51, 0]) {
+            rotate([10, 0, 0]) {
+              cylinder(r = 5, h = 90);
+            }
+          }
         }
 
         //screws for mid thigh
@@ -65,17 +79,29 @@ module thigh_low() {
             }
           }
         }
-
-
+        
         //place for motor
         thigh_low_bottom_base() {
           rotate([0, knee_motor_angle, 0]) {
             translate([-100 + 20 - 6, -45, 70]) {
-              cube([100, 90, 200]);
+              difference() {
+                cube([100, 90, 200]);
+                translate([-0, 98, -40]) {
+                  rotate([35, 0, 0]) {
+                    cube([100, 110, 50]);
+                  }
+                }
+
+                translate([-0, -98, 20]) {
+                  rotate([-35, 0, 0]) {
+                    cube([100, 110, 50]);
+                  }
+                }
+              }
             }
 
             translate([-100 + 20 - 6, -55 / 2 - 5, 0]) {
-              cube([100, 55, 200]);
+              cube([100, 58, 200]);
             }
 
             rotate([0, 90, 0]) {
@@ -85,7 +111,7 @@ module thigh_low() {
                 }
 
                translate([-87 - x, 15 - y, 30]) {
-                  linear_extrude(height = 100) {
+                 linear_extrude(height = 100) {
                     nut_M3_2D();
                   }
                 }

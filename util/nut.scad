@@ -1,5 +1,4 @@
 module nut_2D(E = 7.2) {
-  E = 7.2;
 
   E2 = E / 2;
   x0 = E / (2 * sqrt(3));
