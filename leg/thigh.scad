@@ -2,15 +2,37 @@ include <../util/stl.scad>
 include <../util/involute_gear.scad>
 include <calf.scad>
 
+
+$animate_leg_thigh_left_roll_angle = 0;
+$animate_leg_thigh_right_roll_angle = 0;
+
+
 module thigh_low_bottom_base() {
   calf_top_base() {
     children();
   }
 }
 
+
+module thigh_low_top_base_invert() {
+  rotate([11, 3.5, 0]) {
+    translate([-50, 135, -604]) {
+      children();
+    }
+  }
+}
+
 module thigh_low_top_base() {
   translate([50, -135, 604]) {
     rotate([-11, -3.5, 0]) {
+      children();
+    }
+  }
+}
+
+module thigh_mid_p1_top_base_invert() {
+  thigh_low_top_base_invert() {
+    translate([0, -10, -95]) {
       children();
     }
   }
@@ -24,10 +46,37 @@ module thigh_mid_p1_top_base() {
   }
 }
 
+module thigh_mid_p2_top_base_invert() {
+  thigh_mid_p1_top_base_invert() {
+      translate([0, 0, -30]) {
+      children();
+    }
+  }
+}
+
 module thigh_mid_p2_top_base() {
   translate([0, 0, 30]) {
     thigh_mid_p1_top_base() {
       children();
+    }
+  }
+}
+
+module thigh_roll(left = false) {
+  thigh_mid_p2_top_base() {
+    if(left) {
+      rotate([0, 0, $animate_leg_thigh_left_roll_angle]) {
+        thigh_mid_p2_top_base_invert() {
+          children();
+        }
+      }
+    }
+    else {
+      rotate([0, 0, $animate_leg_thigh_right_roll_angle]) {
+        thigh_mid_p2_top_base_invert() {
+          children();
+        }
+      }
     }
   }
 }
@@ -480,13 +529,16 @@ module thigh_mid_internal_p2() {
   }
 }
 
-module thigh() {
+module thigh(left) {
   union() {
-    thigh_low();
-    thigh_mid_p1();
-    thigh_mid_internal_p1();
+    thigh_high();
     thigh_mid_internal_p2();
-    thigh_mid_p2();
-    //thigh_high();
+
+    thigh_roll(left) {
+      thigh_mid_p2();
+      thigh_mid_internal_p1();
+      thigh_mid_p1();
+      thigh_low();
+    }
   }
 }
