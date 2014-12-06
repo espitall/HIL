@@ -8,7 +8,7 @@ module hil_lower(left) {
   mirror(left) {
     leg(left);
     leg_rotate_knee(left) {
-      foot();
+ //     foot();
     }
   }
 }
@@ -21,7 +21,7 @@ module hil() {
 
   union() {
     hil_lower(false);
-    hil_lower(true);	
+//    hil_lower(true);	
   }
 }
 

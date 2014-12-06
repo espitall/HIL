@@ -242,7 +242,7 @@ module thigh_low() {
   }
 }
 
-module thigh_mid_p1() {
+module thigh_mid_p1_x() {
   union() {
     difference() {
       union() {
@@ -271,8 +271,8 @@ module thigh_mid_p1() {
       thigh_mid_p1_top_base() {
         for(i = [0 : 5]) {
           rotate([0, 0, i * 360 / 6]) {
-            translate([70, 0, -38]) {
-              cylinder(r = 2.5, h = 40);
+            translate([70, 0, -48]) {
+              cylinder(r = 2.5, h = 50);
             }
             translate([70, 0, -15]) {
               nut_M4_insert(shift = 40);
@@ -282,23 +282,45 @@ module thigh_mid_p1() {
       }
 
       //add internal hole
-      thigh_low_top_base() {
-        translate([-51, -47.75, -1]) {
-          linear_extrude(height = 85) {
-            polygon(points = [
-                    [0, 0],
-                    [15, 0],
-                    [15, 21],
-                    [77, 22],
-                    [77, 0],
-                    [92, 0],
-                    [92, 85],
-                    [77, 85],
-                    [77, 70],
-                    [15, 69],
-                    [15, 90],
-                    [0, 90],
-            ]);
+      thigh_mid_p1_top_base() {
+        difference() {
+          translate([-32, 20, -5]) {
+            rotate([0, 180, 0]) {
+              linear_extrude(height = 95, scale = 0.85) {
+                translate([-25, -17, 0]) {
+                  scale([0.85, 0.70, 1]) {
+                    circle(r = 100);
+                  }
+                }
+              }
+            }
+          }
+          
+          //motor fixation
+          translate([-157, -100, -100]) {
+            cube([100, 200, 100]);
+          }
+
+
+          //thigh high
+          for(i = [0 : 5]) {
+            rotate([0, 0, i * 360 / 6]) {
+              translate([60, -10, -20]) {
+                cube([100, 20, 40]);
+              }
+            }
+          }
+
+          //low thigh
+          translate([-46, -56, -200]) {
+            rotate([45, 0, 0]) {
+              cube([70, 100, 200]);
+            }
+          }
+          translate([-46, 26, -100]) {
+            rotate([-45, 0, 0]) {
+              cube([70, 100, 100]);
+            }
           }
         }
       }
@@ -319,13 +341,10 @@ module thigh_mid_p1() {
 
       //potentiometer attach
       thigh_mid_p1_top_base() {
-        translate([0, 0, -25]) {
-          for(rz = [0, 180]) {
-            rotate([90, 0, rz]) {
-              cylinder(r = 2.5, h = 100);
-              translate([0, 0, 60]) {
-                cylinder(r = 6, h = 100);
-              }
+        for(a = [0, 180]) {
+          rotate([0, 0, a + 45]) {
+            translate([0, 20, -20]) {
+              cylinder(r = 4.5 / 2, h = 40);
             }
           }
         }
@@ -340,17 +359,13 @@ module thigh_mid_p1() {
                 cylinder(r = 3.5 / 2, h = 200);
               }
 
-              translate([-87 - x, 15 - y, -200]) {
-                cylinder(r = 4, h = 200);
-              }
-
               translate([-87 - x, 15 - y, 30]) {
                 linear_extrude(height = 100) {
                   nut_M3_2D();
                 }
               }
             }
-          }
+            }
         }
       }
 
@@ -381,6 +396,31 @@ module thigh_mid_p1() {
             cylinder(r = 10, h = 100);
           }
         }
+      }
+
+    }
+  }
+}
+
+module thigh_mid_p1_1() {
+  difference() {
+    thigh_mid_p1_x();
+
+    thigh_mid_p1_top_base() {
+      translate([0, -200, -500]) {
+        cube([500, 400, 1000]);
+      }
+    }
+  }
+}
+
+module thigh_mid_p1_2() {
+  difference() {
+    thigh_mid_p1_x();
+
+    thigh_mid_p1_top_base() {
+      translate([-500, -200, -500]) {
+        cube([500, 400, 1000]);
       }
     }
   }
@@ -426,16 +466,36 @@ module thigh_mid_p2() {
       }
     }
 
-    //hole for cables
     thigh_mid_p1_top_base() {
-      rotate([0, -45, -20]) {
-        translate([50, 0, -70]) {
-          cylinder(r = 10, h = 35);
+      for(i = [0 : 5]) {
+        if((i != 1) && (i != 4)) {
+        rotate([0, 0, (i + 0.25) * 360 / 6]) {
+          translate([63, 0, -1]) {
+          rotate([0, 0, 12]) {
+            cube([20, 30, 40]);
+            }
+          }
+        }
         }
       }
+      for(i = [0 : 5]) {
+        if((i == 1) || (i == 4)) {
+          rotate([0, 0, (i + 0.35) * 360 / 6]) {
+            translate([61, 0, -1]) {
+              rotate([0, 0, 10]) {
+                cube([15, 30, 40]);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    //hole for cables
+    thigh_mid_p1_top_base() {
       rotate([0, 0, -20]) {
-        translate([63, 0, 5]) {
-          cylinder(r = 10, h = 35);
+        translate([63, 0, -4]) {
+          cylinder(r1 = 1, r2 = 10, h = 35);
         }
       }
     }
@@ -531,13 +591,14 @@ module thigh_mid_internal_p2() {
 
 module thigh(left) {
   union() {
-    thigh_high();
+    //thigh_high();
     thigh_mid_internal_p2();
 
     thigh_roll(left) {
       thigh_mid_p2();
       thigh_mid_internal_p1();
-      thigh_mid_p1();
+      !thigh_mid_p1_1();
+      thigh_mid_p1_2();
       thigh_low();
     }
   }
