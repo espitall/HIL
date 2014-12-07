@@ -1,0 +1,203 @@
+include <defines.scad>
+
+/*
+ * create thigh_mid_low part. Should not be printed in one part
+ */
+module thigh_mid_low() {
+  union() {
+    difference() {
+      union() {
+        stl(THIGH_MID_LOW_STL);
+        thigh_low_top_base() {
+          translate([-35, 21.75, -20]) {
+            rotate([0, 0, 1]) {
+              cube([60, 20, 25]);
+            }
+          }
+
+          translate([-35, -47.75, -20]) {
+            rotate([0, 0, 1]) {
+              cube([60, 20, 25]);
+            }
+          }
+        }
+      }
+
+      //remove high part of the stl file
+      thigh_mid_p1_top_base() {
+        cylinder(r = THIGH_MID_LOW_CUT, h = THIGH_MID_LOW_CUT);
+      }
+
+      //add holes and nuts (for thigh high)
+      thigh_mid_p1_top_base() {
+        for(i = [0 : (THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER - 1)]) {
+          rotate([0, 0, i * 360 / THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER]) {
+            translate([THIGH_MID_LOW_MID_HIGH_SCREW_RADIUS, 0, -THIGH_MID_LOW_MID_HIGH_SCREW_HOLE_HEIGHT]) {
+              cylinder(r = THIGH_MID_LOW_MID_HIGH_SCREW_HOLE_RADIUS, 
+                        h = THIGH_MID_LOW_MID_HIGH_SCREW_HOLE_HEIGHT + 1);
+            }
+            translate([THIGH_MID_LOW_MID_HIGH_SCREW_RADIUS, 0, -THIGH_MID_LOW_MID_HIGH_SCREW_NUT_OFFSET]) {
+              nut_M4_insert(shift = THIGH_MID_LOW_MID_HIGH_SCREW_NUT_SHIFT);
+            }
+          }
+        }
+      }
+
+      //add internal hole
+      thigh_mid_p1_top_base() {
+        difference() {
+          translate([-32, 20, -5]) {
+            rotate([0, 180, 0]) {
+              linear_extrude(height = 95, scale = 0.85) {
+                translate([-25, -17, 0]) {
+                  scale([0.85, 0.70, 1]) {
+                    circle(r = 100);
+                  }
+                }
+              }
+            }
+          }
+          
+          //motor fixation
+          translate([-157, -100, -100]) {
+            cube([100, 200, 100]);
+          }
+
+
+          //thigh high
+          for(i = [0 : (THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER - 1)]) {
+            rotate([0, 0, i * 360 / THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER]) {
+              translate([THIGH_MID_LOW_MID_HIGH_SCREW_RADIUS - THIGH_MID_LOW_MID_HIGH_SCREW_NUT_SOLID_OFFSET,
+                         -THIGH_MID_LOW_MID_HIGH_SCREW_NUT_SOLID_WIDTH / 2,
+                         -THIGH_MID_LOW_MID_HIGH_SCREW_NUT_SOLID_HEIGHT]) {
+                cube([THIGH_MID_LOW_MID_HIGH_SCREW_NUT_SOLID_OFFSET * 4,
+                       THIGH_MID_LOW_MID_HIGH_SCREW_NUT_SOLID_WIDTH,
+                       THIGH_MID_LOW_MID_HIGH_SCREW_NUT_SOLID_HEIGHT * 2]);
+              }
+            }
+          }
+
+          //low thigh
+          translate([-46, -56, -200]) {
+            rotate([45, 0, 0]) {
+              cube([70, 100, 200]);
+            }
+          }
+          translate([-46, 26, -100]) {
+            rotate([-45, 0, 0]) {
+              cube([70, 100, 100]);
+            }
+          }
+        }
+      }
+
+      thigh_mid_p1_top_base() {
+        union() {
+          //hole for motor axis
+          translate([-700 * (15 + 7) / 360, 0, -20]) {
+            cylinder(r = 8, h = 40);
+          }
+
+          //hole for potentiometer
+          translate([0, 0, -20]) {
+            cylinder(r = 8 / 2, h = 40);
+          }
+        }
+      }
+
+      //potentiometer attach
+      thigh_mid_p1_top_base() {
+        for(a = [0, 180]) {
+          rotate([0, 0, a + 45]) {
+            translate([0, 20, -20]) {
+              cylinder(r = 4.5 / 2, h = 40);
+            }
+          }
+        }
+      }
+
+      //holes for motor
+      thigh_mid_p1_top_base() {
+        translate([-700 * (15 + 7) / 360, 4.5, 37]) {
+          rotate([0, -90, 0]) {
+            for(x = [0, 49 - 4 - 4], y = [0, 47 - 4 - 4]) {
+              translate([-87 - x, 15 - y, 0]) {
+                cylinder(r = 3.5 / 2, h = 200);
+              }
+
+              translate([-87 - x, 15 - y, 30]) {
+                linear_extrude(height = 100) {
+                  nut_M3_2D();
+                }
+              }
+            }
+            }
+        }
+      }
+
+      //attach for low thigh
+      thigh_low_top_base() {
+        for(h = [-20, 15], r = [0, 180]) { 
+          translate([h, 0, -10]) {
+            rotate([90, 0, r]) {
+              cylinder(r = 2.5, h = 100);
+            }
+          }
+          translate([h, -3, -10]) {
+            rotate([90, 90, r]) {
+              translate([0, 0, 10]) {
+                linear_extrude(height = 25) {
+                  nut_M4_2D();
+                }
+              }
+            }
+          }
+        }
+      }
+
+      //hole for cables
+      thigh_mid_p1_top_base() {
+        rotate([0, 45, -20]) {
+          translate([50, 0, -20]) {
+            cylinder(r = 10, h = 100);
+          }
+        }
+      }
+
+    }
+  }
+}
+
+
+/*
+ * create first part of thigh_mid_low
+ */
+module thigh_mid_low_p1() {
+  difference() {
+    thigh_mid_low();
+
+    //cut thigh_mid_low
+    thigh_mid_p1_top_base() {
+      translate([0, -THIGH_MID_LOW_CUT / 2, -THIGH_MID_LOW_CUT / 2]) {
+        cube([THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT]);
+      }
+    }
+  }
+}
+
+
+/*
+ * create second part of thigh_mid_low
+ */
+module thigh_mid_low_p2() {
+  difference() {
+    thigh_mid_low();
+
+    //cut thigh_mid_low
+    thigh_mid_p1_top_base() {
+      translate([-THIGH_MID_LOW_CUT, -THIGH_MID_LOW_CUT / 2, -THIGH_MID_LOW_CUT / 2]) {
+        cube([THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT]);
+      }
+    }
+  }
+}

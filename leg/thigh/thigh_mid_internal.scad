@@ -6,7 +6,7 @@ module thigh_mid_internal_p1() {
       thigh_mid_p1_top_base() {
         //add gear
         rotate([0, 0, 180]) {
-          gw_gear_pair(gear1_teeth = 15, gear2_teeth = 7, gear_id = 1, thickness = 12, force = true);
+          gw_gear_pair(gear1_teeth = 15, gear2_teeth = 7, gear_id = 1, thickness = 12, force = false);
         }
 
         //add cone

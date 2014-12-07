@@ -1,3 +1,4 @@
+include <thigh_mid.scad>
 include <thigh_mid_internal.scad>
 
 /*
@@ -38,12 +39,18 @@ module thigh(left) {
 
     thigh_roll(left) {
       thigh_mid_internal_p1();
+      !thigh_mid_low_p1();
+      thigh_mid_low_p2();
       /*
       thigh_mid_p2();
-      thigh_mid_p1_1();
-      thigh_mid_p1_2();
       thigh_low();
       */
+
+      //thigh motor
+      thigh_roll_motor_base() {
+        m919d();
+      }
+
     }
   }
 }
