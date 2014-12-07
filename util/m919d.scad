@@ -108,8 +108,8 @@ module m919d_base() {
   }
 }
 
-module m919d(axis_centered = false) {
-  if(axis_centered) {
+module m919d(axis_center = true) {
+  if(axis_center) {
     translate([20 - 12 / 2, -47 / 2, 54 - 1]) {
       rotate([0, -90, 0]) {
         m919d_base();
@@ -119,4 +119,8 @@ module m919d(axis_centered = false) {
   else {
     m919d_base();
   }
+}
+
+module m919d_axis() {
+  m919d();
 }

@@ -1,15 +1,15 @@
 include <base_inc.scad>
 
-debug_disable_gears = true;
+debug_disable_gears = false;
 debug_enable_animation = false;
 max_t = 1.0;
 
 module hil_lower(left) {
   mirror(left) {
     leg(left);
-    leg_rotate_knee(left) {
+   // leg_rotate_knee(left) {
  //     foot();
-    }
+   // }
   }
 }
 	
@@ -21,7 +21,7 @@ module hil() {
 
   union() {
     hil_lower(false);
-//    hil_lower(true);	
+    hil_lower(true);	
   }
 }
 

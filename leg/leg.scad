@@ -1,5 +1,5 @@
 include <calf.scad>
-include <thigh.scad>
+include <thigh/thigh.scad>
 include <knee.scad>
 include <../util/m919d.scad>
 
@@ -30,30 +30,26 @@ module leg_rotate_knee(left = false) {
 module leg(left = false) {
   union() {
     thigh(left);
-
+/*
     thigh_roll(left) {
-      knee();
+     // knee();
       //knee motor
       knee_base() {
         rotate([0, knee_motor_angle, 0]) {
           translate([0, -4.5, 30]) {
-            m919d(axis_centered = true);
+     //       m919d(axis_centered = true);
           }
         }
       }
 
       //thigh motor
-      thigh_mid_p1_top_base() {
-        translate([-700 * (15 + 7) / 360, 0, 7]) {
-          rotate([180, 0, 180]) {
-            m919d(axis_centered = true);
-          }
-        }
+      thigh_roll_motor_base() {
+        m919d();
       }
-
     }
     leg_rotate_knee(left) {
-      calf();
+ //     calf();
     }
+  */
   }
 }

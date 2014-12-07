@@ -14,6 +14,26 @@ module gw_bevel_gear_pair(gear1_teeth = 41,
   }
 }
 
+module gw_gear_pair_base(gear1_teeth, gear2_teeth, gear_id) {
+    circular_pitch = 700;
+    offset1 = gear1_teeth * circular_pitch / 360;
+    offset2 = gear2_teeth * circular_pitch / 360;
+    offset = offset1 + offset2;
+    rz = 180 / gear2_teeth * ((gear2_teeth % 2) + 1);
+
+
+  if(gear_id == 1) {
+    children();
+  }
+  else {
+    translate([offset, 0, 0]) {
+      rotate([0, 0, rz]) {
+        children();
+      }
+    }
+  }
+}
+
 module gw_gear_pair(gear1_teeth = 19, gear2_teeth = 12, thickness = 10, gear_id = 0, force = false) {
   circular_pitch = 700;
   offset1 = gear1_teeth * circular_pitch / 360;
