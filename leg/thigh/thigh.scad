@@ -39,7 +39,9 @@ module thigh(left) {
 
     thigh_roll(left) {
       thigh_mid_internal_p1();
-      !thigh_mid_low_p1();
+  !thigh_mid_p2_top_base(true) {
+      thigh_mid_low_p1();
+      }
       thigh_mid_low_p2();
       /*
       thigh_mid_p2();

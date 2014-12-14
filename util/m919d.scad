@@ -1,3 +1,39 @@
+module m919d_bottom_base() {
+  hbase_x = 49;
+  hbase_y = 47;
+  hbase_z = 1;
+
+  hole_x_offset = 4;
+  hole_y_offset = hole_x_offset;
+
+  translate([20 - 12 / 2, -47 / 2 + 47/2, 49/2 + 54 - 1]) {
+    rotate([0, -90, 0]) {
+      children();
+    }
+  }
+}
+
+module m919d_hole_base() {
+  hbase_x = 49;
+  hbase_y = 47;
+  hbase_z = 1;
+
+  hole_x_offset = 4;
+  hole_y_offset = hole_x_offset;
+
+  translate([20 - 12 / 2, -47 / 2, 54 - 1]) {
+    rotate([0, -90, 0]) {
+      for(x = [hole_x_offset, hbase_x - hole_x_offset], y=[hole_y_offset, hbase_y - hole_y_offset]) {
+        translate([x, y, hbase_z]) {
+          scale([1, 1, -1]) {
+            children();
+          }
+        }
+      }
+    }
+  }
+}
+
 module m919d_base() {
   hbase_x = 49;
   hbase_y = 47;
