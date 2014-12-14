@@ -1,6 +1,6 @@
 include <base_inc.scad>
 
-debug_disable_gears = true;
+debug_disable_gears = false;
 debug_enable_animation = false;
 max_t = 1.0;
 

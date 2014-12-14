@@ -144,7 +144,7 @@ module thigh_mid_low() {
         for(h = [-20, 15], r = [0, 180]) { 
           translate([h, 0, -10]) {
             rotate([90, 0, r]) {
-%              cylinder(r = 2.5, h = 100);
+              cylinder(r = 2.5, h = 100);
             }
           }
           translate([h, -3, -10]) {
