@@ -2,6 +2,94 @@ include <defines.scad>
 include <../../util/func.scad>
 
 /*
+ * create thigh_mid_high part
+ */
+module thigh_mid_high() {
+  difference() {
+      stl(THIGH_MID_HIGH_STL);
+
+      difference() {
+        scale([THIGH_MID_HIGH_INTERNAL_SCALE, THIGH_MID_HIGH_INTERNAL_SCALE, 1]) { 
+          translate(THIGH_MID_HIGH_INTERNAL_OFFSET) {
+            stl(THIGH_MID_HIGH_STL);
+          }
+        }
+
+        thigh_mid_low_top_base() {
+          cylinder(r = THIGH_MID_HIGH_CONE_BOT_RADIUS, h = THIGH_MID_HIGH_CUT);
+          cylinder(r = THIGH_MID_HIGH_CUT, h = THIGH_MID_HIGH_INTERNAL_HEIGHT);
+        }
+      }
+
+    //remove high part of the stl file
+    thigh_mid_high_top_base() {
+     cylinder(r = THIGH_MID_HIGH_CUT, h = THIGH_MID_HIGH_CUT);
+    }
+
+    //remove low part of the stl file
+    thigh_mid_low_top_base() {
+      translate([0, 0, -THIGH_MID_HIGH_CUT]) {
+        cylinder(r = THIGH_MID_HIGH_CUT, h = THIGH_MID_HIGH_CUT);
+      }
+    }
+
+    //add internal hole
+    thigh_mid_low_top_base() {
+      cylinder(r1 = THIGH_MID_HIGH_CONE_BOT_RADIUS, 
+               r2 = THIGH_MID_HIGH_CONE_TOP_RADIUS, 
+               h = THIGH_MID_HIGH_CONE_HEIGHT);
+
+      cylinder(r = THIGH_MID_HIGH_CONE_TOP_RADIUS,
+               h = THIGH_MID_HIGH_CONE_HEIGHT * 2);
+
+      translate([0, 0, -1]) {
+        cylinder(r = THIGH_MID_HIGH_CONE_BOT_RADIUS,
+               h = 2);
+      }
+
+      rotate(THIGH_MID_INTERNAL_P2_GEAR_ROTATION) {
+        gw_gear_pair_base(gear1_teeth = THIGH_MID_INTERNAL_P1_GEAR_TEETH_NUMBER,
+                          gear2_teeth = THIGH_MID_INTERNAL_P2_GEAR_TEETH_NUMBER, 
+                          gear_id = 2) {
+          translate([0, 0, -1]) {
+            cylinder(r = THIGH_MID_HIGH_GEAR_HOLE_RADIUS, h = THIGH_MID_HIGH_GEAR_HOLE_HEIGHT + 1);
+          }
+        }
+      }
+    }
+
+    //add screw holes
+    thigh_mid_low_top_base() {
+      for(i = [0 : (THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER - 1)]) {
+        rotate([0, 0, i * 360 / THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER]) {
+          translate([THIGH_MID_LOW_MID_HIGH_SCREW_RADIUS, 0, -1]) {
+            cylinder(r = THIGH_MID_LOW_MID_HIGH_SCREW_HOLE_RADIUS, 
+                     h = THIGH_MID_HIGH_SCREW_HOLE_HEIGHT + 1);
+          }
+
+          translate([THIGH_MID_LOW_MID_HIGH_SCREW_RADIUS, 0, THIGH_MID_HIGH_INTERNAL_HEIGHT - 1]) {
+            cylinder(r = THIGH_MID_HIGH_HEAD_SCREW_RADIUS, 
+                     h = THIGH_MID_HIGH_SCREW_HOLE_HEIGHT + 1);
+          
+}
+        }
+      }
+    }
+
+    //hole for cables
+    thigh_mid_low_top_base() {
+      rotate(THIGH_MID_LOW_CABLE_HOLE_ROTATION + THIGH_MID_HIGH_CABLE_HOLE_ROTATION ) {
+          translate(THIGH_MID_LOW_CABLE_HOLE_OFFSET + THIGH_MID_HIGH_CABLE_HOLE_OFFSET) {
+          cylinder(r = THIGH_MID_LOW_CABLE_HOLE_RADIUS,
+                   h = THIGH_MID_LOW_CABLE_HOLE_HEIGHT);
+        }
+      }
+    }
+  }
+}
+
+
+/*
  * create thigh_mid_low part. Should not be printed in one part
  */
 module thigh_mid_low() {
@@ -23,12 +111,12 @@ module thigh_mid_low() {
       }
 
       //remove high part of the stl file
-      thigh_mid_p1_top_base() {
+      thigh_mid_low_top_base() {
         cylinder(r = THIGH_MID_LOW_CUT, h = THIGH_MID_LOW_CUT);
       }
 
       //add holes and nuts (for thigh high)
-      thigh_mid_p1_top_base() {
+      thigh_mid_low_top_base() {
         for(i = [0 : (THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER - 1)]) {
           rotate([0, 0, i * 360 / THIGH_MID_LOW_MID_HIGH_SCREW_NUMBER]) {
             translate([THIGH_MID_LOW_MID_HIGH_SCREW_RADIUS, 0, -THIGH_MID_LOW_MID_HIGH_SCREW_HOLE_HEIGHT]) {
@@ -43,7 +131,7 @@ module thigh_mid_low() {
       }
 
       //add internal hole
-      thigh_mid_p1_top_base() {
+      thigh_mid_low_top_base() {
         difference() {
           translate(THIGH_MID_LOW_INTERNAL_HOLE_OFFSET) {
             rotate(THIGH_MID_LOW_INTERNAL_HOLE_ROTATION) {
@@ -58,7 +146,7 @@ module thigh_mid_low() {
           }
           
           //motor fixation
-          thigh_mid_p1_top_base(true) {
+          thigh_mid_low_top_base(true) {
             thigh_roll_motor_base() {
               m919d_bottom_base() {
                 translate(xy_center(THIGH_MID_LOW_ROLL_MOTOR_BASE)) {
@@ -103,7 +191,7 @@ module thigh_mid_low() {
                  h = THIGH_MID_LOW_ROLL_MOTOR_AXIS_LENGTH);
       }
 
-      thigh_mid_p1_top_base() {
+      thigh_mid_low_top_base() {
         union() {
           //hole for potentiometer
           translate([0, 0, -20]) {
@@ -113,7 +201,7 @@ module thigh_mid_low() {
       }
 
       //potentiometer attach
-      thigh_mid_p1_top_base() {
+      thigh_mid_low_top_base() {
         for(a = [0, 180]) {
           rotate([0, 0, a + 45]) {
             translate([0, 20, -20]) {
@@ -160,10 +248,11 @@ module thigh_mid_low() {
       }
 
       //hole for cables
-      thigh_mid_p1_top_base() {
-        rotate([0, 45, -20]) {
-          translate([50, 0, -20]) {
-            cylinder(r = 10, h = 100);
+      thigh_mid_low_top_base() {
+        rotate(THIGH_MID_LOW_CABLE_HOLE_ROTATION) {
+          translate(THIGH_MID_LOW_CABLE_HOLE_OFFSET) {
+            cylinder(r = THIGH_MID_LOW_CABLE_HOLE_RADIUS,
+                     h = THIGH_MID_LOW_CABLE_HOLE_HEIGHT);
           }
         }
       }
@@ -181,7 +270,7 @@ module thigh_mid_low_p1() {
     thigh_mid_low();
 
     //cut thigh_mid_low
-    thigh_mid_p1_top_base() {
+    thigh_mid_low_top_base() {
       translate([0, -THIGH_MID_LOW_CUT / 2, -THIGH_MID_LOW_CUT / 2]) {
         cube([THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT]);
       }
@@ -198,7 +287,7 @@ module thigh_mid_low_p2() {
     thigh_mid_low();
 
     //cut thigh_mid_low
-    thigh_mid_p1_top_base() {
+    thigh_mid_low_top_base() {
       translate([-THIGH_MID_LOW_CUT, -THIGH_MID_LOW_CUT / 2, -THIGH_MID_LOW_CUT / 2]) {
         cube([THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT, THIGH_MID_LOW_CUT]);
       }

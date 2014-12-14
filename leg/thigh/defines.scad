@@ -7,7 +7,7 @@ THIGH_LOW_TOP_BASE_ROTATION = [-11, -3.5, 0];
 THIGH_MID_P1_TOP_BASE_OFFSET   = [0, 10, 95];
 THIGH_MID_P1_TOP_BASE_ROTATION = [0, 0, 0];
 
-THIGH_MID_P2_TOP_BASE_OFFSET   = [0, 0, 30];
+THIGH_MID_P2_TOP_BASE_OFFSET   = [0, 0, 45];
 
 
 /*
@@ -44,6 +44,10 @@ THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_NUT_OFFSET = 8;
 THIGH_MID_LOW_ROLL_MOTOR_BASE = [200, 200, 100];
 THIGH_MID_LOW_ROLL_MOTOR_AXIS_RADIUS = 8;
 THIGH_MID_LOW_ROLL_MOTOR_AXIS_LENGTH = 40;
+THIGH_MID_LOW_CABLE_HOLE_RADIUS = 10;
+THIGH_MID_LOW_CABLE_HOLE_HEIGHT = 81;
+THIGH_MID_LOW_CABLE_HOLE_OFFSET = [50, 0, -20];
+THIGH_MID_LOW_CABLE_HOLE_ROTATION = [0, 45, -20];
 THIGH_MID_LOW_CUT = 1000;
 
 
@@ -77,6 +81,25 @@ THIGH_MID_INTERNAL_P2_GEAR_ROTATION = THIGH_MID_INTERNAL_P1_GEAR_ROTATION;
 THIGH_MID_INTERNAL_P2_AXIS_HEIGHT = 6;
 THIGH_MID_INTERNAL_P2_AXIS_RADIUS = THIGH_MID_LOW_ROLL_MOTOR_AXIS_RADIUS - 1;
 
+
+/*
+ * define constants of thigh_mid_low
+ */
+THIGH_MID_HIGH_STL = "high thigh";
+THIGH_MID_HIGH_CUT = 300;
+THIGH_MID_HIGH_CONE_BOT_RADIUS = THIGH_MID_INTERNAL_P1_CONE_BOT_RADIUS + 0.33;
+THIGH_MID_HIGH_CONE_TOP_RADIUS = THIGH_MID_INTERNAL_P1_CONE_TOP_RADIUS + 0.33;
+THIGH_MID_HIGH_CONE_HEIGHT = THIGH_MID_INTERNAL_P1_CONE_HEIGHT;
+THIGH_MID_HIGH_GEAR_HOLE_RADIUS = 20;
+THIGH_MID_HIGH_GEAR_HOLE_HEIGHT = 13;
+THIGH_MID_HIGH_SCREW_HOLE_HEIGHT = 50;
+THIGH_MID_HIGH_INTERNAL_SCALE = 0.90;
+THIGH_MID_HIGH_INTERNAL_HEIGHT = 15;
+THIGH_MID_HIGH_INTERNAL_OFFSET = [7, -10, 0];
+THIGH_MID_HIGH_HEAD_SCREW_RADIUS = 6;
+THIGH_MID_HIGH_CABLE_HOLE_OFFSET = [20, 0, 0];
+THIGH_MID_HIGH_CABLE_HOLE_ROTATION = [0, -45, 0];
+
 /*
  * define constants of the roll motor
  */
@@ -103,10 +126,11 @@ module thigh_low_top_base(invert = false) {
     }
   }
 }
+
 /*
  * Place children into the thigh_mid_p1_top base
  */
-module thigh_mid_p1_top_base(invert = false) {
+module thigh_mid_low_top_base(invert = false) {
   if(invert) {
     thigh_low_top_base(invert = true) {
       rotate(-THIGH_MID_P1_TOP_BASE_ROTATION) {
@@ -129,9 +153,9 @@ module thigh_mid_p1_top_base(invert = false) {
 /*
  * Place children into the thigh_mid_p1_top base
  */
-module thigh_mid_p2_top_base(invert = false) {
+module thigh_mid_high_top_base(invert = false) {
   if(invert) {
-    thigh_mid_p1_top_base(invert = true) {
+    thigh_mid_low_top_base(invert = true) {
       translate(-THIGH_MID_P2_TOP_BASE_OFFSET) {
         children();
       }
@@ -139,7 +163,7 @@ module thigh_mid_p2_top_base(invert = false) {
   }
   else {
     translate(THIGH_MID_P2_TOP_BASE_OFFSET) {
-      thigh_mid_p1_top_base() {
+      thigh_mid_low_top_base() {
         children();
       }
     }
@@ -151,7 +175,7 @@ module thigh_mid_p2_top_base(invert = false) {
  * Place children into the roll (Z axis rotation) base
  */
 module thigh_roll_motor_base() {
-    thigh_mid_p1_top_base() {
+    thigh_mid_low_top_base() {
       rotate(THIGH_MID_INTERNAL_P2_GEAR_ROTATION) {
         gw_gear_pair_base(gear1_teeth = THIGH_MID_INTERNAL_P1_GEAR_TEETH_NUMBER,
                           gear2_teeth = THIGH_MID_INTERNAL_P2_GEAR_TEETH_NUMBER, 
