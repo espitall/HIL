@@ -33,33 +33,22 @@ module thigh_roll(left = false) {
  * Include and make an union of all thigh related parts
  */
 module thigh(left) {
-  !     thigh_mid_high_top_base(true) {
-      thigh_mid_internal_p2();
-    difference() {
-    union() {
-      //thigh_high();
-      thigh_mid_internal_p2();
+  union() {
+    //thigh_high();
+    thigh_mid_internal_p2();
 
-      thigh_roll(left) {
-        thigh_mid_internal_p1();
-        thigh_mid_low_p1();
-        thigh_mid_low_p2();
+    thigh_roll(left) {
+      thigh_mid_internal_p1();
+      thigh_mid_low_p1();
+      thigh_mid_low_p2();
 
-        thigh_mid_high();
-        /*
+      thigh_mid_high();
+      thigh_low();
 
-           thigh_low();
-         */
-
-        //thigh motor
-        thigh_roll_motor_base() {
-          //m919d();
-        }
-
+      //thigh motor
+      thigh_roll_motor_base() {
+        m919d();
       }
     }
-
-
-  }
   }
 }

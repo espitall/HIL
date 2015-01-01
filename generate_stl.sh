@@ -10,7 +10,7 @@ PARTS_WITH_MIRROR+=" ankle big_toe little_toe heel"
 
 #leg
 PARTS+=" knee_part1 knee_part2 thigh_mid_internal_p1 thigh_mid_internal_p2"
-PARTS_WITH_MIRROR+=" calf_high calf_mid calf_low thigh_low thigh_mid_p1_1 thigh_mid_p1_2 thigh_mid_p2"
+PARTS_WITH_MIRROR+=" calf_high calf_mid calf_low thigh_low thigh_mid_low_p1 thigh_mid_low_p2 thigh_mid_high"
 
 if [ "$#" -ne 0 ]
 then
@@ -36,6 +36,7 @@ generate_stl() {
 
   #generate temporary scad file
   echo "include <../base_inc.scad>" > $TMP_FILE
+  echo "\$fn = 100;" >> $TMP_FILE 
   echo "stl_dir_prefix = \"../\";" >> $TMP_FILE 
   if [ $MIRRORED == true ]
   then

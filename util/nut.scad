@@ -14,6 +14,10 @@ module nut_2D(E = 7.2) {
   ]);
 }
 
+module nut_M25_2D() {
+  nut_2D(E = 5);
+}
+
 module nut_M3_2D() {
   nut_2D(E = 5.5);
 }

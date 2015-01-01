@@ -1,3 +1,18 @@
+m919d_hbase_x = 49;
+m919d_hbase_y = 47;
+m919d_hbase_z = 1;
+
+m919d_reductor_preaxis_height = 20;
+m919d_reductor_preaxis_diam = 12;
+
+m919d_reductor_axis_length = 52;
+m919d_reductor_axis_diam = 6.5;
+
+m919d_meplat_length = 14;
+m919d_meplat_depth = m919d_reductor_axis_diam - 5.75;
+
+
+
 module m919d_bottom_base() {
   hbase_x = 49;
   hbase_y = 47;
@@ -46,11 +61,11 @@ module m919d_base() {
   reductor_length = 31;
   reductor_diam = 38;
 
-  reductor_preaxis_length = 38;
+  reductor_preaxis_length = 35;
   reductor_preaxis_diam = 12;
   reductor_preaxis_height = 20;
 
-  reductor_axis_length = 53;
+  reductor_axis_length = 52;
   reductor_axis_diam = 6.5;
 
   motor_preaxis_length = 54;
@@ -73,7 +88,7 @@ module m919d_base() {
   hole_y_offset = hole_x_offset;
   hole_z_offset = 1;
 
-  meplat_length = 12;
+  meplat_length = 14;
   meplat_depth = reductor_axis_diam - 5.75;
 
   difference() {
@@ -99,7 +114,7 @@ module m919d_base() {
       }
 
       //axis
-      translate([-reductor_preaxis_length, hbase_y / 2, reductor_preaxis_height - reductor_preaxis_diam / 2]) {
+      translate([-reductor_preaxis_length, hbase_y / 2, reductor_preaxis_height - reductor_preaxis_diam / 2 ]) {
         rotate([0, 90, 0]) {
           cylinder(r = reductor_preaxis_diam / 2, h = reductor_preaxis_length);
         }
@@ -158,5 +173,26 @@ module m919d(axis_center = true) {
 }
 
 module m919d_axis() {
-  m919d();
+  union() {
+    difference() {
+      cylinder(r = m919d_reductor_axis_diam / 2, h = m919d_reductor_axis_length);
+
+      //meplat
+      translate([m919d_reductor_axis_diam / 2 - m919d_meplat_depth, -m919d_hbase_y / 2, -1]) {
+        cube([m919d_reductor_preaxis_height - m919d_reductor_preaxis_diam / 2 - m919d_reductor_axis_diam / 2 + m919d_meplat_depth, m919d_hbase_y, m919d_meplat_length + 1]);
+      }
+    }
+
+    translate([2, 0, 14]) {
+      rotate([0, 90, 0]) {
+        linear_extrude(height = 3) {
+          nut_M3_2D();
+        }
+
+        translate([0, 0, -20]) {
+          cylinder(r = 3.2 / 2, h = 40);
+        }
+      }
+    }
+  }
 }

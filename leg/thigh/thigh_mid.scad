@@ -44,7 +44,7 @@ module thigh_mid_high() {
 
       translate([0, 0, -1]) {
         cylinder(r = THIGH_MID_HIGH_CONE_BOT_RADIUS,
-               h = 2);
+               h = 1.01);
       }
 
       rotate(THIGH_MID_INTERNAL_P2_GEAR_ROTATION) {
