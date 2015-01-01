@@ -2,11 +2,13 @@ include <func.scad>
 
 POTENTIOMETER_AXIS_RADIUS = 6 / 2;
 POTENTIOMETER_AXIS_LENGTH = 15;
+POTENTIOMETER_AXIS_NEGATIVE_LENGTH_UP = 17;
+POTENTIOMETER_AXIS_NEGATIVE_LENGTH_DOWN = 10;
 
 POTENTIOMETER_MEPLAT_Y_OFFSET = 1.2;
 POTENTIOMETER_MEPLAT_Z_OFFSET = 3;
 
-POTENTIOMETER_SCREW_RADIUS = 9 / 2;
+POTENTIOMETER_SCREW_RADIUS = 10 / 2;
 POTENTIOMETER_SCREW_LENGTH = 6;
 
 POTENTIOMETER_SCREW_BASE_CUBE = [11, 10, 2];
@@ -34,19 +36,30 @@ module pot_axis(axis_radius = 3.5, height = 10, meplat = 1.5) {
   }
 }
 
-module potentiometer() {
-  union() {
-    difference() {
-      //axis
+module potentiometer_axis(negatif = true) {
+  difference() {
+    //axis
+    if(negatif) {
+      translate([0, 0, -POTENTIOMETER_AXIS_NEGATIVE_LENGTH_DOWN]) {
+        cylinder(r = POTENTIOMETER_AXIS_RADIUS, h = POTENTIOMETER_AXIS_NEGATIVE_LENGTH_UP + POTENTIOMETER_AXIS_NEGATIVE_LENGTH_DOWN);
+      }
+    }
+    else {
       translate([0, 0, -1]) {
         cylinder(r = POTENTIOMETER_AXIS_RADIUS, h = POTENTIOMETER_AXIS_LENGTH + 1);
       }
-
-      //meplat
-      translate([- POTENTIOMETER_AXIS_RADIUS, POTENTIOMETER_MEPLAT_Y_OFFSET, POTENTIOMETER_MEPLAT_Z_OFFSET]) {
-        cube([2 * POTENTIOMETER_AXIS_RADIUS, 2 * POTENTIOMETER_AXIS_RADIUS, 2 * POTENTIOMETER_AXIS_LENGTH]);
-      }
     }
+
+    //meplat
+    translate([- POTENTIOMETER_AXIS_RADIUS, POTENTIOMETER_MEPLAT_Y_OFFSET, POTENTIOMETER_MEPLAT_Z_OFFSET]) {
+      cube([2 * POTENTIOMETER_AXIS_RADIUS, 2 * POTENTIOMETER_AXIS_RADIUS, 2 * POTENTIOMETER_AXIS_LENGTH]);
+    }
+  }
+}
+
+module potentiometer() {
+  union() {
+    potentiometer_axis(negatif = false);
 
     //screw
     translate([0, 0, -POTENTIOMETER_SCREW_LENGTH - 1]) {
