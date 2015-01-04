@@ -32,9 +32,7 @@ module thigh_potentiometer() {
         }
 
         //hole for potentiometer
-        translate(THIGH_MID_INTERNAL_P1_POTENTIOMETER_OFFSET) {
-          potentiometer();
-        }
+        potentiometer();
       }
     }
   }
