@@ -1,5 +1,6 @@
 include <thigh_mid.scad>
 include <thigh_mid_internal.scad>
+include <thigh_potentiometer.scad>
 
 /*
  * initialisation of animation angles
@@ -35,19 +36,27 @@ module thigh_roll(left = false) {
 module thigh(left) {
   union() {
     //thigh_high();
-    thigh_mid_internal_p2();
+    //thigh_mid_internal_p2();
 
     thigh_roll(left) {
-      thigh_mid_internal_p1();
+      //thigh_mid_internal_p1();
       thigh_mid_low_p1();
-      thigh_mid_low_p2();
+      //thigh_mid_low_p2();
 
-      thigh_mid_high();
-      thigh_low();
+      //thigh_mid_high();
+      //thigh_low();
 
       //thigh motor
       thigh_roll_motor_base() {
-        m919d();
+      //  m919d();
+      }
+
+      //thigh potentiometer
+      thigh_potentiometer();
+      thigh_mid_low_top_base() {
+        translate(THIGH_MID_INTERNAL_P1_POTENTIOMETER_OFFSET) {
+          potentiometer();
+        }
       }
     }
   }

@@ -203,8 +203,8 @@ module thigh_mid_low() {
       //potentiometer attach
       thigh_mid_low_top_base() {
         for(a = [0, 180]) {
-          rotate([0, 0, a + 45]) {
-            translate([0, 20, -20]) {
+          rotate([0, 0, a + THIGH_POTENTIOMETER_SCREW_HOLE_ANGLE]) {
+            translate([0, THIGH_POTENTIOMETER_SCREW_HOLE_OFFSET, -THIGH_POTENTIOMETER_SCREW_HOLE_LENGTH / 2]) {
               cylinder(r = 4.5 / 2, h = 40);
             }
           }

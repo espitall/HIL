@@ -42,7 +42,7 @@ module thigh_mid_internal_p1() {
     //add hole for potentiometer
     thigh_mid_low_top_base() {
       translate(THIGH_MID_INTERNAL_P1_POTENTIOMETER_OFFSET) {
-        pot_axis(height = THIGH_MID_INTERNAL_P1_POTENTIOMETER_HEIGHT);
+        potentiometer_axis();
       }
     }
 
