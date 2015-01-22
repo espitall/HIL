@@ -41,7 +41,14 @@ module m919d_hole_base() {
       for(x = [hole_x_offset, hbase_x - hole_x_offset], y=[hole_y_offset, hbase_y - hole_y_offset]) {
         translate([x, y, hbase_z]) {
           scale([1, 1, -1]) {
-            children();
+            if(y < hbase_y / 2) {
+              children();
+            }
+            else {
+              rotate([0, 0, 180]) {
+                children();
+              }
+            }
           }
         }
       }

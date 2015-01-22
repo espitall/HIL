@@ -51,6 +51,35 @@ module potentiometer_axis(negatif = true) {
   }
 }
 
+module potentiometer_footprint() {
+  union() {
+    potentiometer_axis(negatif = false);
+
+    scale(POTENTIOMETER_PRINT_SCALE) {
+      //screw
+      translate([0, 0, -POTENTIOMETER_SCREW_LENGTH - 1]) {
+        cylinder(r = POTENTIOMETER_SCREW_RADIUS, h = POTENTIOMETER_SCREW_LENGTH + 1);
+      }
+
+      //screw base
+      translate([0, 0, -POTENTIOMETER_SCREW_LENGTH]) {
+        translate(-POTENTIOMETER_SCREW_BASE_CUBE / 2) {
+          cube(POTENTIOMETER_SCREW_BASE_CUBE);
+        }
+      }
+
+      //body
+      assign(scaled_cube = POTENTIOMETER_BODY_CUBE * [[1, 0, 0], [0, 1, 0], [0, 0, 10]]) {
+        translate([POTENTIOMETER_BODY_X_OFFSET, 0, -POTENTIOMETER_SCREW_LENGTH]) {
+          translate(xy_center(scaled_cube) + [0, 0, -scaled_cube[2]]) {
+            cube(scaled_cube);
+          }
+        }
+      }
+    }
+  }
+}
+
 module potentiometer() {
   union() {
     potentiometer_axis(negatif = false);
