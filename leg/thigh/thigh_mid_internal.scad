@@ -92,7 +92,7 @@ module thigh_mid_internal_p2() {
       }
     }
 
-    thigh_roll_motor_base() {
+    thigh_yaw_motor_base() {
       m919d_axis();
     }
   }

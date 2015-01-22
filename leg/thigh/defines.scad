@@ -9,6 +9,9 @@ THIGH_MID_P1_TOP_BASE_ROTATION = [0, 0, 0];
 
 THIGH_MID_P2_TOP_BASE_OFFSET   = [0, 0, 45];
 
+THIGH_HIGH_TOP_BASE_OFFSET   = [35, -6.5, 992];
+THIGH_HIGH_TOP_BASE_ROTATION = [0, 0, 0];
+
 
 /*
  * define constants of thigh_mid_low
@@ -38,12 +41,12 @@ THIGH_MID_LOW_INTERNAL_HOLE_EXTRUDE_HEIGHT = 91.5;
 THIGH_MID_LOW_INTERNAL_HOLE_EXTRUDE_SCALE = 0.85;
 THIGH_MID_LOW_INTERNAL_HOLE_ROTATION = [0, 180, 0];
 THIGH_MID_LOW_INTERNAL_HOLE_OFFSET = [-32, 20, -5];
-THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_RADIUS = 2;
-THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_LENGTH = 50;
-THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_NUT_OFFSET = 8;
-THIGH_MID_LOW_ROLL_MOTOR_BASE = [200, 200, 100];
-THIGH_MID_LOW_ROLL_MOTOR_AXIS_RADIUS = 8;
-THIGH_MID_LOW_ROLL_MOTOR_AXIS_LENGTH = 40;
+THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_RADIUS = 2;
+THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_LENGTH = 50;
+THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_NUT_OFFSET = 8;
+THIGH_MID_LOW_YAW_MOTOR_BASE = [200, 200, 100];
+THIGH_MID_LOW_YAW_MOTOR_AXIS_RADIUS = 8;
+THIGH_MID_LOW_YAW_MOTOR_AXIS_LENGTH = 40;
 THIGH_MID_LOW_CABLE_HOLE_RADIUS = 10;
 THIGH_MID_LOW_CABLE_HOLE_HEIGHT = 81;
 THIGH_MID_LOW_CABLE_HOLE_OFFSET = [50, 0, -20];
@@ -78,7 +81,7 @@ THIGH_MID_INTERNAL_P2_GEAR_TEETH_NUMBER = 7;
 THIGH_MID_INTERNAL_P2_GEAR_THICKNESS = 10;
 THIGH_MID_INTERNAL_P2_GEAR_ROTATION = THIGH_MID_INTERNAL_P1_GEAR_ROTATION;
 THIGH_MID_INTERNAL_P2_AXIS_HEIGHT = 10.5;
-THIGH_MID_INTERNAL_P2_AXIS_RADIUS = THIGH_MID_LOW_ROLL_MOTOR_AXIS_RADIUS - 1;
+THIGH_MID_INTERNAL_P2_AXIS_RADIUS = THIGH_MID_LOW_YAW_MOTOR_AXIS_RADIUS - 1;
 
 
 /*
@@ -100,10 +103,10 @@ THIGH_MID_HIGH_CABLE_HOLE_OFFSET = [20, 0, 0];
 THIGH_MID_HIGH_CABLE_HOLE_ROTATION = [0, -45, 0];
 
 /*
- * define constants of the roll motor
+ * define constants of the yaw motor
  */
-THIGH_ROLL_MOTOR_OFFSET = [0, 0, -7];
-THIGH_ROLL_MOTOR_ROTATION = [180, 0, -52];
+THIGH_YAW_MOTOR_OFFSET = [0, 0, -7];
+THIGH_YAW_MOTOR_ROTATION = [180, 0, -52];
 
 /*
  * define constants of thigh_potentiometer
@@ -116,6 +119,12 @@ THIGH_POTENTIOMETER_SCREW_HOLE_RADIUS = 3.5 / 2;
 THIGH_POTENTIOMETER_SCREW_HOLE_LENGTH = 40;
 THIGH_POTENTIOMETER_SCREW_HOLE_OFFSET = 40;
 THIGH_POTENTIOMETER_SCREW_NUT_LENGTH = 17;
+
+/*
+ * define constatns of thigh_high
+ */
+THIGH_HIGH_STL = "high thigh";
+THIGH_HIGH_CUT = 300;
 
 /*
  * Place children into the thigh_low_top base
@@ -182,20 +191,37 @@ module thigh_mid_high_top_base(invert = false) {
 
 
 /*
- * Place children into the roll (Z axis rotation) base
+ * Place children into the yaw (Z axis rotation) base
  */
-module thigh_roll_motor_base() {
+module thigh_yaw_motor_base() {
     thigh_mid_low_top_base() {
       rotate(THIGH_MID_INTERNAL_P2_GEAR_ROTATION) {
         gw_gear_pair_base(gear1_teeth = THIGH_MID_INTERNAL_P1_GEAR_TEETH_NUMBER,
                           gear2_teeth = THIGH_MID_INTERNAL_P2_GEAR_TEETH_NUMBER, 
                           gear_id = 2) {
-          rotate(THIGH_ROLL_MOTOR_ROTATION) {
-            translate(THIGH_ROLL_MOTOR_OFFSET) {
+          rotate(THIGH_YAW_MOTOR_ROTATION) {
+            translate(THIGH_YAW_MOTOR_OFFSET) {
               children();
             }
           }
         }
       }
     }
+}
+
+module thigh_high_top_base(invert = false) {
+  if(invert) {
+    rotate(-THIGH_HIGH_TOP_BASE_ROTATION) {
+      translate(-THIGH_HIGH_TOP_BASE_OFFSET) {
+        children();
+      }
+    }
+  }
+  else {
+    translate(THIGH_HIGH_TOP_BASE_OFFSET) {
+      rotate(THIGH_HIGH_TOP_BASE_ROTATION) {
+        children();
+      }
+    }
+  }
 }

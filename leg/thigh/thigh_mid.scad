@@ -147,11 +147,11 @@ module thigh_mid_low() {
           
           //motor fixation
           thigh_mid_low_top_base(true) {
-            thigh_roll_motor_base() {
+            thigh_yaw_motor_base() {
               m919d_bottom_base() {
-                translate(xy_center(THIGH_MID_LOW_ROLL_MOTOR_BASE)) {
+                translate(xy_center(THIGH_MID_LOW_YAW_MOTOR_BASE)) {
                   scale([1, 1, -1]) {
-                    cube(THIGH_MID_LOW_ROLL_MOTOR_BASE);
+                    cube(THIGH_MID_LOW_YAW_MOTOR_BASE);
                   }
                 }
               }
@@ -186,9 +186,9 @@ module thigh_mid_low() {
         }
       }
 
-      thigh_roll_motor_base() {
-        cylinder(r = THIGH_MID_LOW_ROLL_MOTOR_AXIS_RADIUS, 
-                 h = THIGH_MID_LOW_ROLL_MOTOR_AXIS_LENGTH);
+      thigh_yaw_motor_base() {
+        cylinder(r = THIGH_MID_LOW_YAW_MOTOR_AXIS_RADIUS, 
+                 h = THIGH_MID_LOW_YAW_MOTOR_AXIS_LENGTH);
       }
 
       thigh_mid_low_top_base() {
@@ -212,13 +212,13 @@ module thigh_mid_low() {
       }
 
       //holes for motor
-      thigh_roll_motor_base() {
+      thigh_yaw_motor_base() {
         m919d_hole_base() {
           union() {
-            cylinder(r = THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_RADIUS, 
-                     h = THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_LENGTH);
-            translate([0, 0, THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_NUT_OFFSET]) {
-              linear_extrude(height = THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_LENGTH - THIGH_MID_LOW_ROLL_MOTOR_SCREW_HOLE_NUT_OFFSET) {
+            cylinder(r = THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_RADIUS, 
+                     h = THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_LENGTH);
+            translate([0, 0, THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_NUT_OFFSET]) {
+              linear_extrude(height = THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_LENGTH - THIGH_MID_LOW_YAW_MOTOR_SCREW_HOLE_NUT_OFFSET) {
                 nut_M3_2D();
               }
             }

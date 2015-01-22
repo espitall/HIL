@@ -7,7 +7,7 @@ $animate_leg_left_knee_angle = 0;
 $animate_leg_right_knee_angle = 0;
 
 module leg_rotate_knee(left = false) {
-  thigh_roll(left) {
+  thigh_yaw(left) {
     calf_top_base() {
       if(left) {
         rotate([0, $animate_leg_left_knee_angle, 0]) {
@@ -30,26 +30,24 @@ module leg_rotate_knee(left = false) {
 module leg(left = false) {
   union() {
     thigh(left);
-/*
-    thigh_roll(left) {
-     // knee();
-      //knee motor
-      knee_base() {
-        rotate([0, knee_motor_angle, 0]) {
-          translate([0, -4.5, 30]) {
-     //       m919d(axis_centered = true);
-          }
-        }
-      }
+    //thigh_yaw(left) {
+    //  knee();
+    //  //knee motor
+    //  knee_base() {
+    //    rotate([0, knee_motor_angle, 0]) {
+    //      translate([0, -4.5, 30]) {
+    // //       m919d(axis_centered = true);
+    //      }
+    //    }
+    //  }
 
-      //thigh motor
-      thigh_roll_motor_base() {
-        m919d();
-      }
-    }
-    leg_rotate_knee(left) {
- //     calf();
-    }
-  */
+    //  //thigh motor
+    //  thigh_yaw_motor_base() {
+    //    m919d();
+    //  }
+    //}
+    //leg_rotate_knee(left) {
+    //  calf();
+    //}
   }
 }
