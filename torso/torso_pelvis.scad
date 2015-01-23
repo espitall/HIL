@@ -2,9 +2,31 @@ include <defines.scad>
 
 module torso_pelvis_pitch_axis() {
   torso_pelvis_top_base() {
-    translate([0, -TORSO_PELVIS_PITCH_AXIS_OFFSET, TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]) {
-      rotate([90, 0, 0]) {
-        cylinder(r = 14.5, h = TORSO_PELVIS_PITCH_AXIS_LENGTH);
+    difference() {
+      translate(TORSO_PELVIS_PITCH_OFFSET) {
+        rotate(TORSO_PELVIS_PITCH_ROTATION) {
+          translate([0, 0, TORSO_PELVIS_PITCH_AXIS_OFFSET]) {
+            cylinder(r = TORSO_PELVIS_PITCH_AXIS_RADIUS, h = TORSO_PELVIS_PITCH_AXIS_LENGTH);
+          }
+        }
+      }
+
+      translate(TORSO_PELVIS_PITCH_OFFSET + TORSO_PELVIS_PITCH_POT_OFFSET) {
+        rotate(TORSO_PELVIS_PITCH_POT_ROTATION) {
+          potentiometer_axis();
+        }
+      }
+
+      translate(TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_OFFSET) {
+        translate([0, 0, -TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_HOLE_HEIGHT/2]) {
+          cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_HOLE_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_HOLE_HEIGHT);
+        }
+      }
+
+      translate(TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_OFFSET) {
+        translate([0, 0, -TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_NUT_OFFSET / 2]) {
+          nut_M4_insert();
+        }
       }
     }
   }
@@ -202,6 +224,16 @@ module torso_pelvis_roll_axis_holder_p1() {
 
         translate([0, 0, -TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_HOLE_HEIGHT - TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_HEAD_SCREW_HOLE_OFFSET]) {
           cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_HEAD_SCREW_HOLE_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_AXIS_SCREW_HOLE_HEIGHT);
+        }
+      }
+
+      //pitch axis hole
+      translate(TORSO_PELVIS_PITCH_OFFSET) {
+        translate([0, -TORSO_PELVIS_PITCH_AXIS_HOLE_OFFSET, 0]) {
+          rotate(TORSO_PELVIS_PITCH_ROTATION) {
+            cylinder(r = TORSO_PELVIS_PITCH_AXIS_HOLE_RADIUS,
+                     h = TORSO_PELVIS_PITCH_AXIS_HOLE_LENGTH);
+          }
         }
       }
     }
