@@ -32,6 +32,37 @@ module torso_pelvis_pitch_axis() {
   }
 }
 
+module torso_pelvis_roll_axis() {
+  torso_pelvis_top_base() {
+    difference() {
+      translate(TORSO_PELVIS_ROLL_OFFSET) {
+        rotate(TORSO_PELVIS_ROLL_ROTATION) {
+          translate([0, 0, TORSO_PELVIS_ROLL_AXIS_OFFSET]) {
+            cylinder(r = TORSO_PELVIS_ROLL_AXIS_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_LENGTH);
+          }
+        }
+      }
+
+//      translate(TORSO_PELVIS_PITCH_OFFSET + TORSO_PELVIS_PITCH_POT_OFFSET) {
+//        rotate(TORSO_PELVIS_PITCH_POT_ROTATION) {
+//          potentiometer_axis();
+//        }
+//      }
+
+      translate(TORSO_PELVIS_ROLL_OFFSET) {
+        rotate(TORSO_PELVIS_ROLL_ROTATION) {
+          rotate(TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_ROTATION) {
+            nut_M4_insert();
+            translate([0, 0, -TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_LENGTH / 2]) {
+              cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_LENGTH);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 module torso_pelvis_right_pitch_axis() {
   difference() {
     torso_pelvis_pitch_axis(); 
@@ -44,6 +75,24 @@ module torso_pelvis_left_pitch_axis() {
       scale([1, -1, 1]) {
         torso_pelvis_top_base(true) {
           torso_pelvis_pitch_axis();
+        }
+      }
+    }
+  }
+}
+
+module torso_pelvis_right_roll_axis() {
+  difference() {
+    torso_pelvis_roll_axis(); 
+  }
+}
+
+module torso_pelvis_left_roll_axis() {
+  difference() {
+    torso_pelvis_top_base() {
+      scale([1, -1, 1]) {
+        torso_pelvis_top_base(true) {
+          torso_pelvis_roll_axis();
         }
       }
     }
@@ -379,25 +428,29 @@ module torso_pelvis(left) {
       torso_pelvis_left_pitch_axis();
       torso_pelvis_left_roll_axis_holder_p1();
       torso_pelvis_left_roll_axis_holder_p2();
+      torso_pelvis_left_roll_axis();
 
       //Pitch axis motor
       thigh_high_top_base() {
-        scale([1, -1, 1]) 
-        translate(TORSO_PELVIS_PITCH_MOTOR_OFFSET) {
-          rotate(TORSO_PELVIS_PITCH_MOTOR_ROTATION) {
-            m919d();
+        scale([1, -1, 1]) {
+          translate(TORSO_PELVIS_PITCH_MOTOR_OFFSET) {
+            rotate(TORSO_PELVIS_PITCH_MOTOR_ROTATION) {
+              m919d();
+            }
           }
         }
       }
       
-      ////Roll axis motor
-      //thigh_high_top_base() {
-      //  translate([70, 136, 14]) {
-      //    rotate([90, 90, -90]) {
-      //      m919d();
-      //    }
-      //  }
-      //}
+      //Roll axis motor
+      thigh_high_top_base() {
+        scale([1, -1, 1])  {
+          translate(TORSO_PELVIS_ROLL_MOTOR_OFFSET) {
+            rotate(TORSO_PELVIS_ROLL_MOTOR_ROTATION) {
+              m919d();
+            }
+          }
+        }
+      }
     }
   }
   else {
@@ -407,6 +460,7 @@ module torso_pelvis(left) {
         torso_pelvis_right_pitch_axis();
         torso_pelvis_right_roll_axis_holder_p1();
         torso_pelvis_right_roll_axis_holder_p2();
+        torso_pelvis_right_roll_axis();
 
 
         //Pitch axis potentiometer
@@ -429,8 +483,8 @@ module torso_pelvis(left) {
 
         //Roll axis motor
         thigh_high_top_base() {
-          translate([70, -134, 14]) {
-            rotate([90, 90, -90]) {
+          translate(TORSO_PELVIS_ROLL_MOTOR_OFFSET) {
+            rotate(TORSO_PELVIS_ROLL_MOTOR_ROTATION) {
               m919d();
             }
           }
