@@ -201,7 +201,7 @@ module torso_pelvis_roll_axis_holder_p1() {
         //second holder (pitch)
         translate(TORSO_PELVIS_PITCH_OFFSET) {
           translate([0, -TORSO_PELVIS_PITCH_FIRST_HOLDER_LENGTH, 0]) {
-            rotate([90, 0, 0]) {
+            rotate(TORSO_PELVIS_PITCH_ROTATION ) {
               cylinder(r = TORSO_PELVIS_PITCH_SECOND_HOLDER_RADIUS, h = TORSO_PELVIS_PITCH_THIRD_HOLDER_OFFSET - TORSO_PELVIS_PITCH_FIRST_HOLDER_LENGTH - 1);
             }
           }
@@ -236,6 +236,30 @@ module torso_pelvis_roll_axis_holder_p1() {
           }
         }
       }
+
+      //roll axis screws
+      translate(TORSO_PELVIS_ROLL_OFFSET) {
+        rotate(TORSO_PELVIS_ROLL_ROTATION) {
+          rotate(TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_ROTATION) {
+            translate([0, 0, TORSO_PELVIS_ROLL_AXIS_HOLDER_HEAD_SCREW_OFFSET]) {
+              cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_HEAD_SCREW_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_LENGTH);
+            }
+          }
+        }
+      }
+
+      //p2 screws
+      translate(TORSO_PELVIS_ROLL_OFFSET) {
+        rotate(TORSO_PELVIS_ROLL_ROTATION) {
+          rotate(TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_ROTATION) {
+            for(o = [-TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_P2_SCREW_OFFSET, TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_P2_SCREW_OFFSET]) {
+              translate([0, o, 0]) {
+                cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_LENGTH);
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -244,53 +268,75 @@ module torso_pelvis_roll_axis_holder_p2() {
   torso_pelvis_top_base() {
     difference() {
       union() {
-        //first holder (pitch)
-        translate([0, -TORSO_PELVIS_CENTER_PITCH_AXIS_FIRST_HOLDER_LENGTH, TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]) {
-          rotate([90, 0, 0]) {
-            cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_PITCH_AXIS_HOLDER_RADIUS, h = -TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_OFFSET - TORSO_PELVIS_CENTER_PITCH_AXIS_FIRST_HOLDER_LENGTH - 1);
-          }
-        }
-        translate([-TORSO_PELVIS_CENTER_PITCH_AXIS_HOLDER_RADIUS, TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_OFFSET + 1, 2 * TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]) {
-          cube([2 * TORSO_PELVIS_CENTER_PITCH_AXIS_HOLDER_RADIUS, -TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_OFFSET - TORSO_PELVIS_CENTER_PITCH_AXIS_FIRST_HOLDER_LENGTH - 1, -TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]);
+        //fourth holder (pitch)
+        translate(TORSO_PELVIS_PITCH_OFFSET) {
+          translate([0, -TORSO_PELVIS_PITCH_FOURTH_HOLDER_OFFSET, 0]) {
+            rotate(TORSO_PELVIS_PITCH_ROTATION) {
+              cylinder(r = TORSO_PELVIS_PITCH_SECOND_HOLDER_RADIUS, h = TORSO_PELVIS_PITCH_FOURTH_HOLDER_LENGTH);
+            }
 
-          translate([0, -88, -10]) {
-            cube([70, 112, 10]);
-          }
-        }
-
-
-        //second holder (pitch)
-        translate([0,TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_OFFSET - TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_LENGTH, TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]) {
-          rotate([90, 0, 0]) {
-            cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_PITCH_AXIS_HOLDER_RADIUS, 
-                     h = 30 + TORSO_PELVIS_PITCH_AXIS_LENGTH + TORSO_PELVIS_PITCH_AXIS_OFFSET + TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_OFFSET - TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_LENGTH);
+            rotate([90, -90, 0]) {
+              gw_gear_pair(gear1_teeth = TORSO_PELVIS_ROLL_AXIS_HOLDER_P2_GEAR_TEETH_NUMBER, 
+                           gear2_teeth = TORSO_PELVIS_PITCH_MOTOR_GEAR_TEETH_NUMBER,
+                           thickness = TORSO_PELVIS_ROLL_AXIS_HOLDER_P2_GEAR_THICKNESS,  
+                           gear_id = 1, 
+                           force = true);
+            }
           }
         }
 
-        translate([0,TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_OFFSET - TORSO_PELVIS_CENTER_PITCH_AXIS_SECOND_HOLDER_LENGTH - 3, TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]) {
-          rotate([90, -90, 0]) {
-            gw_gear_pair(18, 10, thickness = 20,  gear_id = 1, force = true);
-          }
-        }
-
-        translate([-40, -157, -80]) {
-          cube([80, 40, 80]);
+        translate([-TORSO_PELVIS_ROLL_AXIS_HOLDER_P2_BODY_CUBE[0] / 2,-TORSO_PELVIS_PITCH_FOURTH_HOLDER_OFFSET - TORSO_PELVIS_PITCH_FOURTH_HOLDER_LENGTH, -TORSO_PELVIS_ROLL_AXIS_HOLDER_P2_BODY_CUBE[2]]) {
+          cube(TORSO_PELVIS_ROLL_AXIS_HOLDER_P2_BODY_CUBE );
         }
       }
 
-      //pitch
-      translate([0, TORSO_PELVIS_CENTER_PITCH_AXIS_HOLE_OFFSET, TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]) {
-        rotate([90, 0, 0]) {
-          cylinder(r = TORSO_PELVIS_PITCH_AXIS_HOLE_RADIUS,
-                   h = TORSO_PELVIS_PITCH_AXIS_HOLE_LENGTH);
+      //pitch axis hole
+      translate(TORSO_PELVIS_PITCH_OFFSET) {
+        translate([0, -TORSO_PELVIS_PITCH_AXIS_HOLE_OFFSET, 0]) {
+          rotate(TORSO_PELVIS_PITCH_ROTATION) {
+            cylinder(r = TORSO_PELVIS_PITCH_AXIS_HOLE_RADIUS,
+                     h = TORSO_PELVIS_PITCH_AXIS_HOLE_LENGTH);
+          }
         }
       }
 
-      //roll
-      translate([-50, -135, TORSO_PELVIS_CENTER_PITCH_AXIS_OFFSET]) {
-        rotate([90, 0, 90]) {
-          cylinder(r = 15,
-                   h = 100);
+      //roll axis hole
+      translate(TORSO_PELVIS_ROLL_OFFSET + [-TORSO_PELVIS_ROLL_AXIS_HOLE_LENGTH / 2, 0, 0]) {
+        rotate(TORSO_PELVIS_ROLL_ROTATION) {
+          cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLE_RADIUS,
+                   h = TORSO_PELVIS_ROLL_AXIS_HOLE_LENGTH );
+        }
+      }
+
+      //roll axis screws
+      translate(TORSO_PELVIS_ROLL_OFFSET) {
+        rotate(TORSO_PELVIS_ROLL_ROTATION) {
+          rotate(TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_ROTATION) {
+            cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_LENGTH);
+
+            translate([0, 0, TORSO_PELVIS_ROLL_AXIS_HOLDER_HEAD_SCREW_OFFSET]) {
+              cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_HEAD_SCREW_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_LENGTH);
+            }
+          }
+        }
+      }
+
+      //p1 screws
+      translate(TORSO_PELVIS_ROLL_OFFSET) {
+        rotate(TORSO_PELVIS_ROLL_ROTATION) {
+          rotate(TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_ROTATION) {
+            for(o = [-TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_P2_SCREW_OFFSET, TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_P2_SCREW_OFFSET]) {
+              translate([0, o, 0]) {
+                cylinder(r = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_RADIUS, h = TORSO_PELVIS_ROLL_AXIS_HOLDER_SCREW_LENGTH);
+
+                rotate(TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_P2_NUT_ROTATION) {
+                  translate([0, 0, TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_P2_NUT_OFFSET]) {
+                    nut_M4_insert(shift = TORSO_PELVIS_ROLL_AXIS_HOLDER_P1_P2_NUT_SHIFT);
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -312,12 +358,27 @@ module torso_pelvis_left_roll_axis_holder_p1() {
   }
 }
 
+module torso_pelvis_right_roll_axis_holder_p2() {
+  torso_pelvis_roll_axis_holder_p2();
+}
+
+module torso_pelvis_left_roll_axis_holder_p2() {
+  torso_pelvis_top_base() {
+    scale([1, -1, 1]) {
+      torso_pelvis_top_base(true) {
+        torso_pelvis_roll_axis_holder_p2();
+      }
+    }
+  }
+}
+
 module torso_pelvis(left) {
   if(left) {
     union() {
       torso_pelvis_center_left();
       torso_pelvis_left_pitch_axis();
       torso_pelvis_left_roll_axis_holder_p1();
+      torso_pelvis_left_roll_axis_holder_p2();
 
       //Pitch axis motor
       thigh_high_top_base() {
@@ -345,6 +406,7 @@ module torso_pelvis(left) {
         torso_pelvis_center_right();
         torso_pelvis_right_pitch_axis();
         torso_pelvis_right_roll_axis_holder_p1();
+        torso_pelvis_right_roll_axis_holder_p2();
 
 
         //Pitch axis potentiometer
@@ -367,7 +429,7 @@ module torso_pelvis(left) {
 
         //Roll axis motor
         thigh_high_top_base() {
-          translate([70, -136, 14]) {
+          translate([70, -134, 14]) {
             rotate([90, 90, -90]) {
               m919d();
             }
@@ -378,7 +440,7 @@ module torso_pelvis(left) {
 
       thigh_high_top_base() {
         translate([0, -200, -150]) {
-          cube([300, 600, 300]);
+ //         cube([300, 600, 300]);
         }
       }
     }
