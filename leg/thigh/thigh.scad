@@ -1,4 +1,5 @@
 include <thigh_high.scad>
+include <thigh_high_internal.scad>
 include <thigh_mid.scad>
 include <thigh_mid_internal.scad>
 include <thigh_potentiometer.scad>
@@ -36,13 +37,13 @@ module thigh_yaw(left = false) {
  */
 module thigh(left) {
   union() {
-  //%  thigh_high();
-    //thigh_mid_internal_p2();
+    thigh_high_internal_p1();
+    thigh_mid_internal_p1();
 
     thigh_yaw(left) {
-    //  thigh_mid_internal_p1();
-    //  thigh_mid_low_p1();
-    //  thigh_mid_low_p2();
+      thigh_mid_internal_p2();
+      thigh_mid_low_p1();
+      thigh_mid_low_p2();
 
       thigh_mid_high();
     //  thigh_low();

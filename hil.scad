@@ -24,7 +24,7 @@ module hil() {
     hil_lower(false);
     //hil_lower(true);	
 
-    //%stl("high thigh");
+    %stl("high thigh");
     //%stl("abdomen");
   }
 }
